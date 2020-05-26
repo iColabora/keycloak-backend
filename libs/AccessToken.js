@@ -27,6 +27,19 @@ class AccessToken {
     }))
   }
 
+  async getRefreshToken () {
+    const cfg = this.config
+    const response = await this.request.post(`/auth/realms/${cfg.realm}/protocol/openid-connect/token`, qs.stringify({
+      grant_type: 'password',
+      username: cfg.username,
+      password: cfg.password,
+      client_id: cfg.client_id,
+      client_secret: cfg.client_secret
+    }))
+
+    return response.data.refresh_token
+  }
+
   async get () {
     const cfg = this.config
 
